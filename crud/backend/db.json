@@ -1,13 +1,24 @@
 {
-    "users": [{
-        "id": 1,
-        "name": "Maria Santos",
-        "email": "mariasantos@gmail.com"
-    }, {
-        "id": 2,
-        "name": "Kauana Gab",
-        "email": "kauanalm@gmail.com"
+  "users": [
+    {
+      "id": 1,
+      "name": "Maria Almeida",
+      "email": "mariasantos@gmail.com"
+    },
+    {
+      "id": 2,
+      "name": "Kauana Gabriela",
+      "email": "kauanalm@gmail.com"
+    },
+    {
+      "name": "Thiago Santos",
+      "email": "th@gmail.com",
+      "id": 3
+    },
+    {
+      "name": "Otaviano Costa",
+      "email": "OtvgCos@gmail.com",
+      "id": 4
     }
-
-]
+  ]
 }
