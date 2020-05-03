@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Main from '../template/Main'
+import axios from 'axios'
 
 const headerProps = {
-    icons: 'users',
+    icon: 'users',
     title: 'Usuários',
-    subtitle: 'Cadastro de Usuários: Incluir, Listar, Alterar e Excluir!'
+    subtitle: 'Cadastro de usuários: Incluir, Listas, Alterar e Excluir'
 }
 
 const baseUrl = 'http://localhost:3001/users'
+
 const initialState = {
     user: { name: '', email: '' },
     list: []
@@ -27,21 +28,20 @@ export default class UserCrud extends Component {
     clear() {
         this.setState({ user: initialState.user })
     }
-
     save() {
         const user = this.state.user
         const method = user.id ? 'put' : 'post'
         const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
         axios[method](url, user)
             .then(resp => {
-                const list = this.getUpdatedList(resp.data)
+                const list = this.getUpdateList(resp.data)
                 this.setState({ user: initialState.user, list })
             })
     }
 
-    getUpdatedList(user) {
+    getUpdateList(user, add = true) {
         const list = this.state.list.filter(u => u.id !== user.id)
-        if (user) list.unshift(user)
+        if (add) list.unshift(user)
         return list
     }
 
@@ -58,34 +58,29 @@ export default class UserCrud extends Component {
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label>Nome</label>
-                            <input type="text" className="form-control"
-                                name="name"
+                            <input type="text" className="form-control" name="name"
                                 value={this.state.user.name}
                                 onChange={e => this.updateField(e)}
-                                placeholder="Digite o nome: " />
+                                placeholder="Digite um nome"></input>
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label>E-mail</label>
-                            <input type="text" className="form-control"
-                                name="email"
+                            <input type="text" className="form-control" name="email"
                                 value={this.state.user.email}
                                 onChange={e => this.updateField(e)}
-                                placeholder="Digite o email: " />
+                                placeholder="Digite o e-mail"></input>
                         </div>
                     </div>
                 </div>
-
                 <hr />
                 <div className="row">
                     <div className="col-12 d-flex justify-content-end">
-                        <button className="btn btn-primary"
-                            onClick={e => this.save(e)}>
+                        <button className="btn btn-primary" onClick={e => this.save(e)}>
                             Salvar
                         </button>
-                        <button className="btn btn-secondary ml-2"
-                            onClick={e => this.clear(e)}>
+                        <button className="btn btn-secondary ml-2" onClick={e => this.clear(e)}>
                             Cancelar
                         </button>
                     </div>
@@ -100,7 +95,7 @@ export default class UserCrud extends Component {
 
     remove(user) {
         axios.delete(`${baseUrl}/${user.id}`).then(resp => {
-            const list = this.getUpdatedList(null)
+            const list = this.getUpdateList(user, false)
             this.setState({ list })
         })
     }
@@ -131,23 +126,21 @@ export default class UserCrud extends Component {
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>
-                        <button className="btn btn-warning"
-                            onClick={() => this.load(user)}>
+                        <button className="btn btn-warning" onClick={() => this.load(user)}>
                             <i className="fa fa-pencil"></i>
                         </button>
-                        <button className="btn btn-danger ml-2"
-                            onClick={() => this.remove(user)}>
+                        <button className="btn btn-danger ml-2" onClick={() => this.remove(user)}>
                             <i className="fa fa-trash"></i>
                         </button>
                     </td>
-                </tr>
+                </tr >
             )
         })
     }
 
     render() {
         return (
-            <Main {...headerProps}>
+            <Main{...headerProps}>
                 {this.renderForm()}
                 {this.renderTable()}
             </Main>
