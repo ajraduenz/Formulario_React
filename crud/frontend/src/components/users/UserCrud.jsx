@@ -39,9 +39,9 @@ export default class UserCrud extends Component {
             })
     }
 
-    getUpdatedList(user, add = true) {
+    getUpdatedList(user) {
         const list = this.state.list.filter(u => u.id !== user.id)
-        if (add) list.unshift(user)
+        if (user) list.unshift(user)
         return list
     }
 
@@ -100,7 +100,7 @@ export default class UserCrud extends Component {
 
     remove(user) {
         axios.delete(`${baseUrl}/${user.id}`).then(resp => {
-            const list = this.getUpdatedList(resp, false)
+            const list = this.getUpdatedList(null)
             this.setState({ list })
         })
     }
